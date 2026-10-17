@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Data Encryption & Decryption Tool</title>
+
+<style>
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    font-family: "Times New Roman", serif;
+    background: #030b1b;
+    color: #f1f5ff;
+}
+
+header {
+    padding: 25px;
+    background: linear-gradient(120deg, #09275e, #171642, #351078);
+    border-bottom: 1px solid #31518a;
+}
+
+.header {
+    max-width: 1100px;
+    margin: auto;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.logo {
+    font-size: 45px;
+    padding: 15px;
+    border: 2px solid #398eff;
+    border-radius: 20px;
+    background: #0b2250;
+}
+
+h1 { margin: 0 0 10px; }
+
+.gradient {
+    color: #64caff;
+}
+
+header p { color: #c3d9ff; }
+
+main {
+    max-width: 1100px;
+    margin: auto;
+    padding: 20px;
+}
+
+nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding: 8px;
+    background: #0a1934;
+    border: 1px solid #244675;
+    border-radius: 12px;
+    margin-bottom: 20px;
+}
+
+button {
+    padding: 12px 16px;
+    font-family: inherit;
+    font-size: 16px;
+    border: 0;
+    border-radius: 8px;
+    color: white;
+    background: #18345e;
+    cursor: pointer;
+}
+
+button:hover { filter: brightness(1.2); }
+
+nav button {
+    flex: 1;
+    min-width: 130px;
+    background: transparent;
+}
+
+nav button.active {
+    background: linear-gradient(110deg, #1685ff, #7947ff);
+}
+
+.page { display: none; }
+.page.active { display: block; }
+
+.card {
+    background: #0a1934;
+    border: 1px solid #244675;
+    border-radius: 15px;
+    overflow: hidden;
+    margin-bottom: 20px;
+}
+
+.card-head {
+    padding: 20px;
+    background: linear-gradient(110deg, #075a9e, #342078);
+}
+
+.card-head h2 { margin: 0 0 8px; }
+.card-head p { margin: 0; color: #d7e7ff; }
+
+.card-body { padding: 20px; }
+
+label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 8px;
+}
+
+input, textarea {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 12px;
+    border: 1px solid #345687;
+    border-radius: 8px;
+    color: white;
+    background: #071329;
+    font-family: inherit;
+    font-size: 16px;
+}
+
+textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.field { margin-bottom: 18px; }
+
+.grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 16px;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 12px;
+}
+
+.row button { flex: 1; }
+
+.blue { background: linear-gradient(110deg, #149cff, #5354ff); }
+.purple { background: linear-gradient(110deg, #914bff, #5c3cff); }
+.green { background: linear-gradient(110deg, #00cba0, #008e80); }
+.outline { background: transparent; border: 1px solid #416ba8; }
+
+.status {
+    padding: 14px;
+    margin-top: 15px;
+    background: #0c203b;
+    border: 1px solid #245478;
+    border-radius: 9px;
+    color: #54e5d0;
+    overflow-wrap: anywhere;
+}
+
+.error { color: #ffb3c0; border-color: #813d52; }
+
+.small { color: #a9bfdf; font-size: 14px; }
+
+.feature-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+}
+
+.feature {
+    text-align: center;
+    padding: 18px 10px;
+    background: #0a1934;
+    border: 1px solid #244675;
+    border-radius: 12px;
+}
+
+.feature h3 { margin-bottom: 5px; }
+.feature p { color: #a9bfdf; font-size: 14px; }
+
+footer {
+    text-align: center;
+    padding: 25px;
+    color: #94add1;
+}
+
+@media(max-width:650px) {
+    .grid { grid-template-columns: 1fr; }
+    .feature-grid { grid-template-columns: 1fr 1fr; }
+    .logo { font-size: 30px; padding: 10px; }
+    main { padding: 12px; }
+}
+</style>
+</head>
+
+<body>
+
+<header>
+    <div class="header">
+        <div class="logo">🔐</div>
+        <div>
+            <h1>Data Encryption <span class="gradient">&amp; Decryption Tool</span></h1>
+            <strong class="gradient">Secure • Private • Reliable</strong>
+            <p>Protect your messages and files with modern encryption.</p>
+        </div>
+    </div>
+</header>
+
+<main>
+
+<nav>
+    <button type="button" class="active" onclick="showPage('messages',this)">💬 Messages</button>
+    <button type="button" onclick="showPage('files',this)">📁 File Encryption</button>
+    <button type="button" onclick="showPage('decryptFiles',this)">🔓 File Decryption</button>
+    <button type="button" onclick="showPage('algorithms',this)">📊 Algorithms</button>
+</nav>
+
+<section id="messages" class="page active">
+<div class="card">
+    <div class="card-head">
+        <h2>💬 Message Encryption &amp; Decryption</h2>
+        <p>Secure messages using AES-256-GCM encryption.</p>
+    </div>
+
+    <div class="card-body">
+
+        <div class="field">
+            <label for="messageKey">Secret Key</label>
+            <input type="password" id="messageKey" placeholder="Generate a secret key">
+            <div class="row">
+                <button type="button" class="purple" onclick="generateKey('messageKey')">🔑 Generate Key</button>
+                <button type="button" onclick="toggleKey('messageKey',this)">👁 Show Key</button>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="plainMessage">Enter Your Message</label>
+            <textarea id="plainMessage" placeholder="Type your message here..."></textarea>
+        </div>
+
+        <div class="row">
+            <button type="button" class="blue" onclick="encryptMessage()">🔒 Encrypt Message</button>
+            <button type="button" class="green" onclick="decryptMessage()">🔓 Decrypt Message</button>
+            <button type="button" onclick="clearMessages()">Clear</button>
+        </div>
+
+        <div class="grid">
+            <div>
+                <label for="encryptedMessage">Encrypted Message</label>
+                <textarea id="encryptedMessage" placeholder="Encrypted output appears here"></textarea>
+                <button type="button" onclick="copyField('encryptedMessage')">📋 Copy</button>
+                <button type="button" onclick="downloadEncryptedMessage()">⬇ Download</button>
+            </div>
+
+            <div>
+                <label for="decryptedMessage">Decrypted Message</label>
+                <textarea id="decryptedMessage" placeholder="Original message appears here"></textarea>
+                <button type="button" onclick="copyField('decryptedMessage')">📋 Copy</button>
+            </div>
+        </div>
+
+        <div id="messageStatus" class="status">Ready. Generate a key to begin.</div>
+    </div>
+</div>
+</section>
+
+<section id="files" class="page">
+<div class="card">
+    <div class="card-head">
+        <h2>📁 File Encryption</h2>
+        <p>Encrypt a file and download the encrypted version.</p>
+    </div>
+
+    <div class="card-body">
+        <label for="fileInput">Choose a File</label>
+        <input type="file" id="fileInput">
+
+        <label for="fileKey">Secret Key</label>
+        <input type="password" id="fileKey" placeholder="Generate a secret key">
+
+        <div class="row">
+            <button type="button" class="purple" onclick="generateKey('fileKey')">🔑 Generate Key</button>
+            <button type="button" onclick="toggleKey('fileKey',this)">👁 Show Key</button>
+        </div>
+
+        <button type="button" class="blue" onclick="encryptFile()">🔒 Encrypt &amp; Download File</button>
+        <div id="fileStatus" class="status">Choose a file to begin.</div>
+    </div>
+</div>
+</section>
+
+<section id="decryptFiles" class="page">
+<div class="card">
+    <div class="card-head">
+        <h2>🔓 File Decryption</h2>
+        <p>Restore your original file using its secret key.</p>
+    </div>
+
+    <div class="card-body">
+        <label for="encryptedFileInput">Choose Encrypted JSON File</label>
+        <input type="file" id="encryptedFileInput" accept=".json,application/json">
+
+        <label for="decryptKey">Original Secret Key</label>
+        <input type="password" id="decryptKey" placeholder="Enter the original key">
+
+        <button type="button" onclick="toggleKey('decryptKey',this)">👁 Show Key</button>
+        <br><br>
+        <button type="button" class="green" onclick="decryptFile()">🔓 Decrypt &amp; Download File</button>
+
+        <div id="decryptStatus" class="status">Select your encrypted file.</div>
+    </div>
+</div>
+</section>
+
+<section id="algorithms" class="page">
+<div class="card">
+    <div class="card-head">
+        <h2>📊 Algorithm Information</h2>
+        <p>Learn about the encryption technology used.</p>
+    </div>
+    <div class="card-body">
+        <h3>AES-256-GCM</h3>
+        <p>AES-256 uses a 256-bit key. GCM also authenticates encrypted data to detect unauthorized changes.</p>
+        <h3>Secret Key</h3>
+        <p>The key must be kept private. You need the same key to decrypt the data.</p>
+        <h3>Initialization Vector</h3>
+        <p>A fresh random 12-byte IV is generated for every encryption operation.</p>
+        <h3>Privacy</h3>
+        <p>Encryption happens locally in the browser. This demonstration does not upload files to a server.</p>
+    </div>
+</div>
+</section>
+
+<div class="feature-grid">
+    <div class="feature"><h3>🛡️ Secure</h3><p>AES-256-GCM</p></div>
+    <div class="feature"><h3>⚡ Fast</h3><p>Browser encryption</p></div>
+    <div class="feature"><h3>🔑 Simple</h3><p>Easy key generation</p></div>
+    <div class="feature"><h3>📁 Files</h3><p>Encrypt and restore</p></div>
+</div>
+
+</main>
+
+<footer>Data Encryption &amp; Decryption Tool | Educational Mini Project</footer>
+
+<script>
+/* NAVIGATION */
+function showPage(pageId, button) {
+    document.querySelectorAll(".page").forEach(function(page) {
+        page.classList.remove("active");
+    });
+
+    document.querySelectorAll("nav button").forEach(function(btn) {
+        btn.classList.remove("active");
+    });
+
+    document.getElementById(pageId).classList.add("active");
+    button.classList.add("active");
+}
+
+/* BASIC HELPERS */
+function setStatus(id, message, error) {
+    const element = document.getElementById(id);
+    element.textContent = message;
+    element.className = error ? "status error" : "status";
+}
+
+function cryptoCheck() {
+    if (!window.crypto || !window.crypto.subtle) {
+        throw new Error("Encryption needs a secure browser context. Run the project using localhost or HTTPS.");
+    }
+}
+
+function toBase64(bytes) {
+    let binary = "";
+    for (let i = 0; i < bytes.length; i++) {
+        binary += String.fromCharCode(bytes[i]);
+    }
+    return btoa(binary);
+}
+
+function fromBase64(text) {
+    let binary;
+    try {
+        binary = atob(text);
+    } catch (e) {
+        throw new Error("Invalid key or encrypted data.");
+    }
+
+    const result = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++) {
+        result[i] = binary.charCodeAt(i);
+    }
+    return result;
+}
+
+async function getKey(id) {
+    const value = document.getElementById(id).value.trim();
+
+    if (!value) {
+        throw new Error("Please generate or enter your secret key.");
+    }
+
+    const bytes = fromBase64(value);
+
+    if (bytes.length !== 32) {
+        throw new Error("Invalid key. Generate a new key or enter the original 32-byte key.");
+    }
+
+    return await crypto.subtle.importKey(
+        "raw",
+        bytes,
+        { name: "AES-GCM" },
+        false,
+        ["encrypt", "decrypt"]
+    );
+}
+
+function generateKey(id) {
+    try {
+        cryptoCheck();
+
+        const bytes = crypto.getRandomValues(new Uint8Array(32));
+        document.getElementById(id).value = toBase64(bytes);
+
+        const statusId = id === "messageKey" ? "messageStatus" :
+                         id === "fileKey" ? "fileStatus" : "decryptStatus";
+
+        setStatus(statusId, "Secret key generated successfully. Save it safely.");
+    } catch (e) {
+        alert(e.message);
+    }
+}
+
+function toggleKey(id, button) {
+    const input = document.getElementById(id);
+
+    if (input.type === "password") {
+        input.type = "text";
+        button.textContent = "🙈 Hide Key";
+    } else {
+        input.type = "password";
+        button.textContent = "👁 Show Key";
+    }
+}
+
+async function copyField(id) {
+    const input = document.getElementById(id);
+
+    if (!input.value) {
+        alert("Nothing to copy.");
+        return;
+    }
+
+    try {
+        await navigator.clipboard.writeText(input.value);
+        alert("Copied successfully.");
+    } catch (e) {
+        input.focus();
+        input.select();
+        alert("Press Ctrl+C to copy.");
+    }
+}
+
+function saveBlob(blob, filename) {
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+
+    link.href = url;
+    link.download = filename;
+
+    document.body.appendChild(link);
+    link.click();
+    link.remove();
+
+    setTimeout(function() {
+        URL.revokeObjectURL(url);
+    }, 1500);
+}
+
+/* MESSAGE ENCRYPTION */
+async function encryptMessage() {
+    try {
+        cryptoCheck();
+
+        const message = document.getElementById("plainMessage").value;
+
+        if (!message) {
+            throw new Error("Please type a message first.");
+        }
+
+        const key = await getKey("messageKey");
+        const iv = crypto.getRandomValues(new Uint8Array(12));
+
+        const encrypted = await crypto.subtle.encrypt(
+            { name: "AES-GCM", iv: iv },
+            key,
+            new TextEncoder().encode(message)
+        );
+
+        const output = {
+            format: "DataEncryptionToolMessage",
+            algorithm: "AES-256-GCM",
+            iv: toBase64(iv),
+            ciphertext: toBase64(new Uint8Array(encrypted))
+        };
+
+        document.getElementById("encryptedMessage").value =
+            JSON.stringify(output, null, 2);
+
+        document.getElementById("decryptedMessage").value = "";
+
+        setStatus("messageStatus", "Message encrypted successfully!");
+    } catch (e) {
+        setStatus("messageStatus", e.message, true);
+    }
+}
+
+async function decryptMessage() {
+    try {
+        cryptoCheck();
+
+        const text = document.getElementById("encryptedMessage").value.trim();
+
+        if (!text) {
+            throw new Error("Encrypt a message first or paste encrypted JSON.");
+        }
+
+        let data;
+
+        try {
+            data = JSON.parse(text);
+        } catch (e) {
+            throw new Error("Invalid encrypted JSON.");
+        }
+
+        if (data.algorithm !== "AES-256-GCM" || !data.iv || !data.ciphertext) {
+            throw new Error("The encrypted message format is invalid.");
+        }
+
+        const key = await getKey("messageKey");
+        const iv = fromBase64(data.iv);
+        const ciphertext = fromBase64(data.ciphertext);
+
+        if (iv.length !== 12 || ciphertext.length < 16) {
+            throw new Error("Encrypted data is incomplete.");
+        }
+
+        const result = await crypto.subtle.decrypt(
+            { name: "AES-GCM", iv: iv },
+            key,
+            ciphertext
+        );
+
+        document.getElementById("decryptedMessage").value =
+            new TextDecoder().decode(result);
+
+        setStatus("messageStatus", "Message decrypted successfully!");
+    } catch (e) {
+        setStatus(
+            "messageStatus",
+            e.name === "OperationError"
+                ? "Decryption failed. Check your key and encrypted message."
+                : e.message,
+            true
+        );
+    }
+}
+
+function clearMessages() {
+    document.getElementById("plainMessage").value = "";
+    document.getElementById("encryptedMessage").value = "";
+    document.getElementById("decryptedMessage").value = "";
+    setStatus("messageStatus", "All message fields cleared.");
+}
+
+function downloadEncryptedMessage() {
+    const value = document.getElementById("encryptedMessage").value;
+
+    if (!value) {
+        alert("Encrypt a message first.");
+        return;
+    }
+
+    saveBlob(
+        new Blob([value], { type: "application/json" }),
+        "encrypted-message.json"
+    );
+}
+
+/* FILE ENCRYPTION */
+async function encryptFile() {
+    try {
+        cryptoCheck();
+
+        const file = document.getElementById("fileInput").files[0];
+
+        if (!file) {
+            throw new Error("Please choose a file.");
+        }
+
+        if (file.size > 20 * 1024 * 1024) {
+            throw new Error("Please choose a file smaller than 20 MB.");
+        }
+
+        const key = await getKey("fileKey");
+        const iv = crypto.getRandomValues(new Uint8Array(12));
+
+        setStatus("fileStatus", "Encrypting file...");
+
+        const encrypted = await crypto.subtle.encrypt(
+            { name: "AES-GCM", iv: iv },
+            key,
+            await file.arrayBuffer()
+        );
+
+        const packageData = {
+            format: "DataEncryptionToolFile",
+            algorithm: "AES-256-GCM",
+            filename: file.name,
+            mimeType: file.type || "application/octet-stream",
+            iv: toBase64(iv),
+            ciphertext: toBase64(new Uint8Array(encrypted))
+        };
+
+        saveBlob(
+            new Blob([JSON.stringify(packageData)], {
+                type: "application/json"
+            }),
+            file.name + ".encrypted.json"
+        );
+
+        setStatus("fileStatus", "File encrypted! Download started.");
+    } catch (e) {
+        setStatus("fileStatus", e.message, true);
+    }
+}
+
+/* FILE DECRYPTION */
+async function decryptFile() {
+    try {
+        cryptoCheck();
+
+        const file = document.getElementById("encryptedFileInput").files[0];
+
+        if (!file) {
+            throw new Error("Please select your encrypted JSON file.");
+        }
+
+        if (file.size > 30 * 1024 * 1024) {
+            throw new Error("The encrypted file must be smaller than 30 MB.");
+        }
+
+        const key = await getKey("decryptKey");
+
+        setStatus("decryptStatus", "Decrypting file...");
+
+        let data;
+
+        try {
+            data = JSON.parse(await file.text());
+        } catch (e) {
+            throw new Error("This is not a valid encrypted JSON file.");
+        }
+
+        if (data.format !== "DataEncryptionToolFile" ||
+            data.algorithm !== "AES-256-GCM") {
+            throw new Error("This file was not created by this tool.");
+        }
+
+        const iv = fromBase64(data.iv);
+        const ciphertext = fromBase64(data.ciphertext);
+
+        if (iv.length !== 12 || ciphertext.length < 16) {
+            throw new Error("Encrypted file data is incomplete.");
+        }
+
+        const decrypted = await crypto.subtle.decrypt(
+            { name: "AES-GCM", iv: iv },
+            key,
+            ciphertext
+        );
+
+        const mime = typeof data.mimeType === "string" &&
+            /^[\w.+-]+\/[\w.+-]+$/.test(data.mimeType)
+            ? data.mimeType : "application/octet-stream";
+
+        const filename = String(data.filename || "decrypted-file.bin")
+            .replace(/[\/\\]/g, "_")
+            .replace(/[\u0000-\u001f\u007f]/g, "_");
+
+        saveBlob(new Blob([decrypted], { type: mime }), filename);
+
+        setStatus("decryptStatus", "File decrypted! Download started.");
+    } catch (e) {
+        setStatus(
+            "decryptStatus",
+            e.name === "OperationError"
+                ? "Decryption failed. Check the original key."
+                : e.message,
+            true
+        );
+    }
+}
+</script>
+
+</body>
+</html>
